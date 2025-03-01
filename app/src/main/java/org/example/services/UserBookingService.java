@@ -46,9 +46,38 @@ public class UserBookingService {
         }
     }
 
+    // Updating UserList
     private void saveUserListToFile() throws IOException{
         File usersFile = new File(USER_PATH);
         objectMapper.writeValue(usersFile, userList);
     }
 
+
+    // Fetch Ticket details
+    public void fetchTickets(){
+        Optional<User> userFetched = userList.stream().filter(user1 -> {
+            return user1.getName().equals(user.getName()) && UserServiceUtil.checkPassword(user.getPassword(), user1.getHashedPassword());
+        }).findFirst();
+        if(userFetched.isPresent()){
+            userFetched.get().printTickets();
+        }
+    }
+
+
+    // Cancel Booking
+    public boolean cancelBooking(String ticketId){
+        if(ticketId.isEmpty()){
+            System.out.println("Invalid Ticket ID !!");
+            return Boolean.FALSE;
+        }
+
+        boolean removed = user.getBookedTickets().removeIf(Ticket -> Ticket.getTicketId().equals(ticketId));
+        if(removed){
+            System.out.println("Ticket with ticket ID: " + ticketId +" has been canceled successfully !!");
+            return Boolean.TRUE;
+        }else{
+            System.out.println("No Ticket found with ID: " + ticketId );
+            return Boolean.FALSE;
+        }
+    }
 }
