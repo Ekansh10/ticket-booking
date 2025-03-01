@@ -10,4 +10,10 @@ public class Ticket {
     private Date dateOfBooking;
     private Date dateOfTravel;
     private Train train;
+
+    // Methods
+
+    public String getTicketInfo(){
+        return String.format("Ticket ID: %s belongs to User %s from %s to %s on %s", ticketId, userId, source, destination, dateOfTravel);
+    }
 }

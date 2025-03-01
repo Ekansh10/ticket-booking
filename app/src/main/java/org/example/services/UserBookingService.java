@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class UserBookingService {
-    private User user;
-    private List<User> userList;
+    private User user; // Storing user at global level
+    private List<User> userList; // List of users from localdb
 
-    private static final String USER_PATH = "../localDb/users.json";
+    private static final String USER_PATH = "app/src/main/java/org/example/localDb/users.json";
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper(); // Jackson's ObjectMapper to map values to classes
 
     public UserBookingService(User u) throws IOException {
         this.user = u;
