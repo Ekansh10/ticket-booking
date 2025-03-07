@@ -17,4 +17,5 @@ public class UserServiceUtil {
         currentId += 1;
         return currentUid;
     }
+
 }
