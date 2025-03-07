@@ -3,9 +3,112 @@
  */
 package org.example;
 
+import org.example.entities.Ticket;
+import org.example.entities.User;
+import org.example.services.UserBookingService;
+import org.example.util.UserServiceUtil;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.UUID;
+
 public class App {
 
     public static void main(String[] args){
+        System.out.println("Running Train Booking System!!");
+        Scanner scanner = new Scanner(System.in);
+        int option = 0;
+        UserBookingService userBookingService;
+        try{
+            userBookingService = new UserBookingService();
+        }catch (IOException ex){
+            System.out.println("DB not Found!!");
+            return;
+        }
+        boolean success;
+        while(option != 7){
+            success = false;
+            System.out.println("Choose your option:");
+            System.out.println("1. Sign up");
+            System.out.println("2. Login");
+            System.out.println("3. Fetch Bookings");
+            System.out.println("4. Search Trains");
+            System.out.println("5. Book a Seat");
+            System.out.println("6. Cancel my Booking");
+            System.out.println("7. Exit App");
+            option = scanner.nextInt();
+            switch (option){
+                case 1:
+                    System.out.println("Enter the username: ");
+                    String nameToSignup = scanner.nextLine();
+                    System.out.println("Enter your password: ");
+                    String passToSignUp = scanner.nextLine();
 
+                    User u = new User();
+                    u.setName(nameToSignup);
+                    u.setPassword(passToSignUp);
+                    u.setHashedPassword(UserServiceUtil.hashPassword(passToSignUp));
+                    u.setUserId(UserServiceUtil.getUid());
+                    u.setBookedTickets(new ArrayList<>());
+
+                    success = userBookingService.signUp(u);
+                    if(success){
+                        System.out.println("Signed up Successfully!!");
+                    }else{
+                        System.out.println("Something Went Wrong!!!");
+                    }
+                    break;
+
+                case 2:
+                    System.out.println("Enter your username: ");
+                    String nameToLogin = scanner.nextLine();
+                    System.out.println("Enter your password: ");
+                    String passToLogin = scanner.nextLine();
+
+                    User userToLogin = new User(nameToLogin, passToLogin,
+                            UserServiceUtil.hashPassword(passToLogin),
+                            new ArrayList<>(), UUID.randomUUID().toString());
+                    try{
+                        userBookingService = new UserBookingService(userToLogin);
+                        success = userBookingService.loginUser();
+                        if(success){
+                            System.out.println("Login Successfull!!");
+                        }else{
+                            System.out.println("Invalid Credentials!!");
+                        }
+                    }catch (IOException ex){
+                        System.out.println("Something Went Wrong!!");
+                        return;
+                    }
+                    break;
+
+                case 3:
+                    if(userBookingService.getUser() != null) {
+                        System.out.println("Fetching Your Bookings...");
+                        userBookingService.fetchTickets();
+                    }else{
+                        System.out.println("Invalid Session!!");
+                    }
+                    break;
+
+                // Yet to be implemented
+                // case 4:
+                // case 5:
+
+                // need to fix the user context checking, maybe write a method in userserviceutil
+                case 6:
+                    if(userBookingService.getUser() != null){
+                        System.out.println("Enter your Ticket Id: ");
+                        String tidToCancel = scanner.nextLine();
+                        userBookingService.cancelBooking(tidToCancel);
+                    }else{
+                        System.out.println("Invalid Session!!");
+                    }
+                    break;
+
+            }
+
+        }
     }
 }

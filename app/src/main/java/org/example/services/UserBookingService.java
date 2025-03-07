@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class UserBookingService {
+
     private User user; // Storing user at global level
     private List<User> userList; // List of users from localdb
 
@@ -21,12 +22,19 @@ public class UserBookingService {
     // Constructor
     public UserBookingService(User u) throws IOException {
         this.user = u;
-        File users = new File(USER_PATH);
-        userList = objectMapper.readValue(users, new TypeReference<List<User>>() {});
+        userList = loadUsers();
     }
 
+    public UserBookingService() throws IOException {
+        userList = loadUsers();
+    }
     // Methods
 
+    // Loading Users
+    public List<User> loadUsers() throws IOException{
+        File users = new File(USER_PATH);
+        return objectMapper.readValue(users, new TypeReference<List<User>>() {});
+    }
     // LOGIN
     public boolean loginUser(){
         Optional<User> foundUser = userList.stream().filter( user1 -> {
@@ -60,6 +68,8 @@ public class UserBookingService {
         }).findFirst();
         if(userFetched.isPresent()){
             userFetched.get().printTickets();
+        }else{
+            System.out.println("User Not Found!!");
         }
     }
 
@@ -79,5 +89,10 @@ public class UserBookingService {
             System.out.println("No Ticket found with ID: " + ticketId );
             return Boolean.FALSE;
         }
+    }
+
+    // Getters
+    public User getUser() {
+        return user;
     }
 }
