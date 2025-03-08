@@ -2,6 +2,7 @@ package org.example.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.example.entities.User;
 import org.example.util.UserServiceUtil;
 
@@ -14,9 +15,9 @@ public class UserBookingService {
     private User user; // Storing user at global level
     private List<User> userList; // List of users from localdb
 
-    private static final String USER_PATH = "app/src/main/java/org/example/localDb/users.json";
+    private static final String USER_PATH = "/home/ekansh-mahajan/Desktop/PROJECTS/IRCTC/app/src/main/java/org/example/localDb/users.json";
 
-    private ObjectMapper objectMapper = new ObjectMapper(); // Jackson's ObjectMapper to map values to classes
+    private ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT); // Jackson's ObjectMapper to map values to classes
 
 
     // Constructor
@@ -32,9 +33,17 @@ public class UserBookingService {
 
     // Loading Users
     public List<User> loadUsers() throws IOException{
+        System.out.println("Before");
         File users = new File(USER_PATH);
+        System.out.println("After");
+        System.out.println(users.toPath());
+        System.out.println("File exists: " + users.exists());
+        System.out.println("File readable: " + users.canRead());
+        System.out.println("File size: " + users.length() + " bytes");
+
         return objectMapper.readValue(users, new TypeReference<List<User>>() {});
     }
+
     // LOGIN
     public boolean loginUser(){
         Optional<User> foundUser = userList.stream().filter( user1 -> {

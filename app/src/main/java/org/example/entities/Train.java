@@ -1,16 +1,26 @@
 package org.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Train {
+    @JsonProperty("train_id")
     private String trainId;
+    @JsonProperty("train_name")
     private String trainName;
+    @JsonProperty("train_no")
     private String trainNo;
     private List<List<Integer>> seats;
+    @JsonProperty("station_times")
     private Map<String, String> stationTimes;
     private List<String> stations;
 
     // Constructor
+    public Train(){
+    }
+
     public Train(String trainId, String trainName, String trainNo, List<List<Integer>> seats, Map<String, String> stationTimes, List<String> stations) {
         this.trainId = trainId;
         this.trainName = trainName;
@@ -22,7 +32,8 @@ public class Train {
 
     // Methods
     public String getTrainInfo(){
-        return String.format("Train Name: %s, Train ID: %s, Train No: %s", trainName, trainId, trainNo);
+        String trainTimings = this.getStationTimes().keySet().stream().map(key -> key + ": " + this.getStationTimes().get(key)).collect(Collectors.joining("\n"));
+        return String.format("Train Name: %s, Train ID: %s, Train No: %s \n\n Station Timings: \n%s" , trainName, trainId, trainNo, trainTimings);
     }
 
     // Getters

@@ -4,12 +4,15 @@
 package org.example;
 
 import org.example.entities.Ticket;
+import org.example.entities.Train;
 import org.example.entities.User;
+import org.example.services.TrainService;
 import org.example.services.UserBookingService;
 import org.example.util.UserServiceUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -23,13 +26,14 @@ public class App {
         try{
             userBookingService = new UserBookingService();
         }catch (IOException ex){
+            ex.printStackTrace();
             System.out.println("DB not Found!!");
             return;
         }
         boolean success;
         while(option != 7){
             success = false;
-            System.out.println("Choose your option:");
+            System.out.println("Available Options:");
             System.out.println("1. Sign up");
             System.out.println("2. Login");
             System.out.println("3. Fetch Bookings");
@@ -37,7 +41,9 @@ public class App {
             System.out.println("5. Book a Seat");
             System.out.println("6. Cancel my Booking");
             System.out.println("7. Exit App");
+            System.out.println("Choose your option:");
             option = scanner.nextInt();
+            scanner.nextLine();
             switch (option){
                 case 1:
                     System.out.println("Enter the username: ");
@@ -93,7 +99,28 @@ public class App {
                     break;
 
                 // Yet to be implemented
-                // case 4:
+                case 4:
+                    System.out.println("Enter Source Station: ");
+                    String sourceToSearch = scanner.nextLine();
+                    System.out.println("Enter Destination Station: ");
+                    String destinationToSearch = scanner.nextLine();
+                    System.out.println("Searching Trains....");
+
+                    try{
+                        TrainService trainService = new TrainService();
+                        List<Train> searchedTrains = trainService.searchTrains(sourceToSearch, destinationToSearch);
+
+                        for(Train t : searchedTrains){
+                            System.out.println(t.getTrainInfo());
+                        }
+                    } catch (IOException ex) {
+                        System.out.println("Trains DB not Found!!");
+                        return;
+                    }
+                    break;
+
+
+
                 // case 5:
 
                 // need to fix the user context checking, maybe write a method in userserviceutil

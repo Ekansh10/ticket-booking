@@ -1,18 +1,27 @@
 package org.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 public class Ticket {
+    @JsonProperty("ticket_id")
     private String ticketId;
+    @JsonProperty("user_id")
     private String userId;
     private String source;
     private String destination;
+    @JsonProperty("date_of_booking")
     private Date dateOfBooking;
+    @JsonProperty("date_of_travel")
     private Date dateOfTravel;
     private Train train;
 
 
     // Constructor
+    public Ticket(){
+    }
+
     public Ticket(String ticketId, String userId, String source, String destination, Date dateOfBooking, Date dateOfTravel, Train train) {
         this.ticketId = ticketId;
         this.userId = userId;
