@@ -17,10 +17,12 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class App {
+    private static final Scanner scanner = new Scanner(System.in);
+    private static String sourceToSearch;
+    private static String destinationToSearch;
 
     public static void main(String[] args){
         System.out.println("Running Train Booking System!!");
-        Scanner scanner = new Scanner(System.in);
         int option = 0;
         UserBookingService userBookingService;
         try{
@@ -31,21 +33,25 @@ public class App {
             return;
         }
         boolean success;
-        while(option != 7){
+
+
+        // APP LOOP
+        while(option != 8){
             success = false;
-            System.out.println("Available Options:");
+            System.out.println("\n\nAvailable Options:");
             System.out.println("1. Sign up");
             System.out.println("2. Login");
-            System.out.println("3. Fetch Bookings");
-            System.out.println("4. Search Trains");
-            System.out.println("5. Book a Seat");
-            System.out.println("6. Cancel my Booking");
-            System.out.println("7. Exit App");
+            System.out.println("3. LogOut");
+            System.out.println("4. Fetch Bookings");
+            System.out.println("5. Search Trains");
+            System.out.println("6. Book a Seat");
+            System.out.println("7. Cancel my Booking");
+            System.out.println("8. Exit App");
             System.out.println("Choose your option:");
             option = scanner.nextInt();
             scanner.nextLine();
             switch (option){
-                case 1:
+                case 1: // SIGN UP
                     System.out.println("Enter the username: ");
                     String nameToSignup = scanner.nextLine();
                     System.out.println("Enter your password: ");
@@ -66,77 +72,108 @@ public class App {
                     }
                     break;
 
-                case 2:
-                    System.out.println("Enter your username: ");
-                    String nameToLogin = scanner.nextLine();
-                    System.out.println("Enter your password: ");
-                    String passToLogin = scanner.nextLine();
+                case 2: // LOGIN
+                    if(userBookingService.getUser() == null){
+                        System.out.println("Enter your username: ");
+                        String nameToLogin = scanner.nextLine();
+                        System.out.println("Enter your password: ");
+                        String passToLogin = scanner.nextLine();
 
-                    User userToLogin = new User(nameToLogin, passToLogin,
-                            UserServiceUtil.hashPassword(passToLogin),
-                            new ArrayList<>(), UUID.randomUUID().toString());
-                    try{
-                        userBookingService = new UserBookingService(userToLogin);
-                        success = userBookingService.loginUser();
-                        if(success){
-                            System.out.println("Login Successfull!!");
-                        }else{
-                            System.out.println("Invalid Credentials!!");
+                        User userToLogin = new User(nameToLogin, passToLogin,
+                                UserServiceUtil.hashPassword(passToLogin),
+                                new ArrayList<>(), UUID.randomUUID().toString());
+                        try{
+                            userBookingService = new UserBookingService(userToLogin);
+                            success = userBookingService.loginUser();
+                            if(success){
+                                System.out.println("Login Successfull!!");
+                            }else{
+                                System.out.println("Invalid Credentials!!");
+                            }
+                        }catch (IOException ex){
+                            System.out.println("Something Went Wrong!!");
+                            return;
                         }
-                    }catch (IOException ex){
-                        System.out.println("Something Went Wrong!!");
-                        return;
+                    }
+                    else{
+                        System.out.println("Already Logged in!!\nPlease LogOut First!!");
+                    }
+
+                    break;
+
+                case 3: // LOGOUT
+                    if(userBookingService.getUser() == null){
+                        System.out.println("Already Logged Out!!");
+                    }else{
+                        userBookingService.setUser(null);
+                        sourceToSearch = null;
+                        destinationToSearch = null;
+                        //System.gc();
+                        System.out.println("Successfully Logged Out!!");
                     }
                     break;
 
-                case 3:
+                case 4: // FETCH BOOKINGS
                     if(userBookingService.getUser() != null) {
                         System.out.println("Fetching Your Bookings...");
                         userBookingService.fetchTickets();
                     }else{
-                        System.out.println("Invalid Session!!");
-                    }
-                    break;
-
-                // Yet to be implemented
-                case 4:
-                    System.out.println("Enter Source Station: ");
-                    String sourceToSearch = scanner.nextLine();
-                    System.out.println("Enter Destination Station: ");
-                    String destinationToSearch = scanner.nextLine();
-                    System.out.println("Searching Trains....");
-
-                    try{
-                        TrainService trainService = new TrainService();
-                        List<Train> searchedTrains = trainService.searchTrains(sourceToSearch, destinationToSearch);
-
-                        for(Train t : searchedTrains){
-                            System.out.println(t.getTrainInfo());
-                        }
-                    } catch (IOException ex) {
-                        System.out.println("Trains DB not Found!!");
-                        return;
+                        System.out.println("Invalid Session!!\nPlease Login !!");
                     }
                     break;
 
 
+                case 5: // SEARCH TRAINS
+                    findTrains();
+                    break;
 
-                // case 5:
+
+//                case 6:
+//                    if(userBookingService.getUser() != null){
+//                        findTrains();
+//                        System.out.println("Enter the train No: ");
+//                        String bookingTrainNo = scanner.nextLine();
+//
+//
+//                    }else{
+//                        System.out.println("Invalid Session!!\nPlease Login !!");
+//                    }
+//                    break;
 
                 // need to fix the user context checking, maybe write a method in userserviceutil
-                case 6:
+                case 7:
                     if(userBookingService.getUser() != null){
                         System.out.println("Enter your Ticket Id: ");
                         String tidToCancel = scanner.nextLine();
                         userBookingService.cancelBooking(tidToCancel);
                     }else{
-                        System.out.println("Invalid Session!!");
+                        System.out.println("Invalid Session!!\nPlease Login !!");
                     }
 
                     break;
 
             }
 
+        }
+    }
+
+    // METHODS
+    private static void findTrains() {
+        System.out.println("Enter Source Station: ");
+        sourceToSearch = scanner.nextLine();
+        System.out.println("Enter Destination Station: ");
+        destinationToSearch = scanner.nextLine();
+        System.out.println("Searching Trains....");
+
+        try{
+            TrainService trainService = new TrainService();
+            List<Train> searchedTrains = trainService.searchTrains(sourceToSearch, destinationToSearch);
+
+            for(Train t : searchedTrains){
+                System.out.println(t.getTrainInfo());
+            }
+        } catch (IOException ex) {
+            System.out.println("Trains DB not Found!!");
         }
     }
 }

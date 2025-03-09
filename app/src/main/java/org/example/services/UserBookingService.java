@@ -105,4 +105,9 @@ public class UserBookingService {
     public User getUser() {
         return user;
     }
+
+    // Setters
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

@@ -37,4 +37,10 @@
   "hashed_password" : "$2a$10$s3CbQUvWvnyWAYalfrpKTen4I85WH8HD85OIDk7.FlNtg6.r.7s5i",
   "tickets_booked" : [ ],
   "user_id" : "U0"
+}, {
+  "name" : "jyoti",
+  "password" : "jyoti",
+  "hashed_password" : "$2a$10$XjJII18gFUravE7He3J9/.maLNqR4jDZtTJLvkdg9WTwba8yOq9a6",
+  "tickets_booked" : [ ],
+  "user_id" : "U0"
 } ]

@@ -1,10 +1,12 @@
 package org.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Train {
     @JsonProperty("train_id")
     private String trainId;
@@ -32,8 +34,8 @@ public class Train {
 
     // Methods
     public String getTrainInfo(){
-        String trainTimings = this.getStationTimes().keySet().stream().map(key -> key + ": " + this.getStationTimes().get(key)).collect(Collectors.joining("\n"));
-        return String.format("Train Name: %s, Train ID: %s, Train No: %s \n\n Station Timings: \n%s" , trainName, trainId, trainNo, trainTimings);
+        String trainTimings = this.getStationTimes().keySet().stream().map(key -> key.toUpperCase() + ": " + this.getStationTimes().get(key)).collect(Collectors.joining("\n"));
+        return String.format("Train Name: %s, Train ID: %s, Train No: %s \n\nStation Timings: \n%s" , trainName, trainId, trainNo, trainTimings);
     }
 
     // Getters

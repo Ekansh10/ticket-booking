@@ -1,8 +1,10 @@
 package org.example.entities;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private String name;
     private String password;
@@ -25,7 +27,11 @@ public class User {
 
     // Methods
     public void printTickets(){
-        this.bookedTickets.forEach((x) -> System.out.println(x.getTicketInfo()));
+        if(this.bookedTickets.isEmpty()){
+            System.out.println("No Bookings !!");
+        }else{
+            this.bookedTickets.forEach((x) -> System.out.println(x.getTicketInfo()));
+        }
     }
 
 
