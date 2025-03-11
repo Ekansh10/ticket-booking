@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.example.entities.Train;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 public class TrainService {
@@ -46,4 +47,33 @@ public class TrainService {
         return (sourceIdx != -1 && destinationIdx != -1) && (sourceIdx < destinationIdx);
     }
 
+    public AtomicReference<Train> getTrain(String tno){
+        Optional<Train> tOpt = trainList.stream().filter(train -> train.getTrainNo().equals(tno)).findFirst();
+        AtomicReference<Train> foundTrain = new AtomicReference<>();
+        tOpt.ifPresent(foundTrain::set);
+        return foundTrain;
+    }
+
+    public AtomicBoolean seatAvailable(AtomicReference<Train> t){
+
+        AtomicBoolean present = new AtomicBoolean(false);
+
+        if(t.get() == null){
+            return null;
+        }
+        else{
+            Train train = t.get();
+            List<List<Integer>> seats = train.getSeats();
+            for (List<Integer> seat : seats) {
+                for (int j = 0; j < seat.size(); j++) {
+                    if (seat.get(j) == 0) {
+                        seat.set(j, 1);
+                        present.set(true);
+                        return present;
+                    }
+                }
+            }
+        }
+        return present;
+    }
 }

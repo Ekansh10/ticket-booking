@@ -3,12 +3,18 @@ package org.example.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.example.entities.Ticket;
+import org.example.entities.Train;
 import org.example.entities.User;
 import org.example.util.UserServiceUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class UserBookingService {
 
@@ -45,10 +51,12 @@ public class UserBookingService {
     }
 
     // LOGIN
+    // Not a good Practice
     public boolean loginUser(){
         Optional<User> foundUser = userList.stream().filter( user1 -> {
             return user1.getName().equals(user.getName()) && UserServiceUtil.checkPassword(user.getPassword(), user1.getHashedPassword());
                 }).findFirst();
+        foundUser.ifPresent(value -> this.user = value);
         return foundUser.isPresent();
     }
 
@@ -72,15 +80,60 @@ public class UserBookingService {
 
     // Fetch Ticket details
     public void fetchTickets(){
-        Optional<User> userFetched = userList.stream().filter(user1 -> {
-            return user1.getName().equals(user.getName()) && UserServiceUtil.checkPassword(user.getPassword(), user1.getHashedPassword());
-        }).findFirst();
-        if(userFetched.isPresent()){
-            userFetched.get().printTickets();
+        if(this.user == null){
+            System.out.println("Invalid Session!! Please Login First!!");
         }else{
-            System.out.println("User Not Found!!");
+            this.user.printTickets();
         }
     }
+
+
+    // Book Seat
+    public void seatBooking(String tNo, String source, String destination, Date dot) throws IOException {
+        TrainService ts = new TrainService();
+        AtomicReference<Train> choosenTrain = ts.getTrain(tNo);
+
+        AtomicBoolean isAvailable = ts.seatAvailable(choosenTrain);
+        if(isAvailable.get()){
+            Ticket t = new Ticket(this.user.getUserId(), source, destination, dot, choosenTrain.get());
+//            System.out.println("Before ticket");
+//            System.out.println(t.getTicketInfo());
+//            System.out.println("After ticket");
+//            System.out.println(this.user.getBookedTickets());
+//            this.user.getBookedTickets().add(t);
+//            System.out.println(this.user.getBookedTickets());
+//            User newUser = this.user;
+//            newUser.getBookedTickets().add(t);
+//            userList.add(newUser);
+//            saveUserListToFile();
+
+            // Due to new user object assignment to UserBookingService at the time of login, a new uid was created to declare the user and thus it was giving errors
+//            System.out.println("\nLOOP BEGINS");
+//            for (User u : userList) {
+//                System.out.println(u.getUserId());
+//                System.out.println(this.user.getUserId());
+//                if (u.getUserId().equals(this.user.getUserId())) {
+//                    System.out.println("Got it");
+//                    u.getBookedTickets().add(t);
+//                    break;
+//                }
+//            }
+//            System.out.println("\nLOOP ENDS");
+
+            this.user.getBookedTickets().add(t); // Now it'll work
+            saveUserListToFile();
+
+            System.out.println("Ticket Booked Successfully !!");
+            System.out.println("\nYour Booked Tickets:\n");
+            user.printTickets();
+
+        }else{
+            System.out.println("No Seats Available !!");
+        }
+
+    }
+
+
 
 
     // Cancel Booking
@@ -90,7 +143,7 @@ public class UserBookingService {
             return Boolean.FALSE;
         }
 
-        boolean removed = user.getBookedTickets().removeIf(Ticket -> Ticket.getTicketId().equals(ticketId));
+        boolean removed = user.getBookedTickets().removeIf(ticket -> ticket.getTicketId().equals(ticketId));
         if(removed){
             System.out.println("Ticket with ticket ID: " + ticketId +" has been canceled successfully !!");
             return Boolean.TRUE;

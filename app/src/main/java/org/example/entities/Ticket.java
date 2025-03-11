@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ticket {
+    private static final AtomicInteger counter = new AtomicInteger(1000);
     @JsonProperty("ticket_id")
     private String ticketId;
     @JsonProperty("user_id")
@@ -24,12 +26,12 @@ public class Ticket {
     public Ticket(){
     }
 
-    public Ticket(String ticketId, String userId, String source, String destination, Date dateOfBooking, Date dateOfTravel, Train train) {
-        this.ticketId = ticketId;
+    public Ticket(String userId, String source, String destination, Date dateOfTravel, Train train) {
+        this.ticketId = generateTid();
         this.userId = userId;
         this.source = source;
         this.destination = destination;
-        this.dateOfBooking = dateOfBooking;
+        this.dateOfBooking = new Date();
         this.dateOfTravel = dateOfTravel;
         this.train = train;
     }
@@ -40,6 +42,10 @@ public class Ticket {
         return String.format("Ticket ID: %s belongs to User %s from %s to %s on %s", ticketId, userId, source, destination, dateOfTravel);
     }
 
+    // Generate Random and Distinct Tid
+    private static String generateTid(){
+            return "PNR-" + counter.getAndIncrement();
+    }
 
     // Getters
     public String getTicketId() {

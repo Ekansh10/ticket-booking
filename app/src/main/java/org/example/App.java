@@ -11,17 +11,21 @@ import org.example.services.UserBookingService;
 import org.example.util.UserServiceUtil;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
+import java.util.Date;
+
 
 public class App {
     private static final Scanner scanner = new Scanner(System.in);
     private static String sourceToSearch;
     private static String destinationToSearch;
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         System.out.println("Running Train Booking System!!");
         int option = 0;
         UserBookingService userBookingService;
@@ -79,11 +83,12 @@ public class App {
                         System.out.println("Enter your password: ");
                         String passToLogin = scanner.nextLine();
 
+                        // Not a good Practice
                         User userToLogin = new User(nameToLogin, passToLogin,
                                 UserServiceUtil.hashPassword(passToLogin),
                                 new ArrayList<>(), UUID.randomUUID().toString());
                         try{
-                            userBookingService = new UserBookingService(userToLogin);
+                            userBookingService = new UserBookingService(userToLogin);// Not a good Practice
                             success = userBookingService.loginUser();
                             if(success){
                                 System.out.println("Login Successfull!!");
@@ -124,24 +129,42 @@ public class App {
 
 
                 case 5: // SEARCH TRAINS
-                    findTrains();
+                    boolean x = findTrains();
                     break;
 
 
-//                case 6:
-//                    if(userBookingService.getUser() != null){
-//                        findTrains();
-//                        System.out.println("Enter the train No: ");
-//                        String bookingTrainNo = scanner.nextLine();
-//
-//
-//                    }else{
-//                        System.out.println("Invalid Session!!\nPlease Login !!");
-//                    }
-//                    break;
+                case 6: // BOOK SEAT
+                    if(userBookingService.getUser() != null){
+                        boolean found = findTrains();
+                        if(!found){
+                            break;
+                        }
+                        System.out.println("Enter the train No: ");
+                        String bookingTrainNo = scanner.nextLine();
+                        System.out.println("Enter Date of Travel (yyyy-MM-dd): ");
+                        String inputDate = scanner.nextLine();
+
+                        Date dateOfTravel = null;
+                        try {
+                            dateOfTravel = parseDate(inputDate);
+                            System.out.println("Parsed Date: " + dateOfTravel);
+                        } catch (ParseException e) {
+                            System.out.println("Invalid date format! Please enter in yyyy-MM-dd format.");
+                        }
+
+                        if(bookingTrainNo != null){
+                            userBookingService.seatBooking(bookingTrainNo, sourceToSearch, destinationToSearch, dateOfTravel);
+                        }else{
+                            System.out.println("Invalid Train Number!!");
+                        }
+
+                    }else{
+                        System.out.println("Invalid Session!!\nPlease Login !!");
+                    }
+                    break;
 
                 // need to fix the user context checking, maybe write a method in userserviceutil
-                case 7:
+                case 7: // CANCEL BOOKING
                     if(userBookingService.getUser() != null){
                         System.out.println("Enter your Ticket Id: ");
                         String tidToCancel = scanner.nextLine();
@@ -158,7 +181,7 @@ public class App {
     }
 
     // METHODS
-    private static void findTrains() {
+    private static boolean findTrains() {
         System.out.println("Enter Source Station: ");
         sourceToSearch = scanner.nextLine();
         System.out.println("Enter Destination Station: ");
@@ -169,11 +192,24 @@ public class App {
             TrainService trainService = new TrainService();
             List<Train> searchedTrains = trainService.searchTrains(sourceToSearch, destinationToSearch);
 
-            for(Train t : searchedTrains){
-                System.out.println(t.getTrainInfo());
+            if(searchedTrains.isEmpty()){
+                System.out.println("No Trains for following route !!");
+            }else{
+                for(Train t : searchedTrains){
+                    System.out.println(t.getTrainInfo());
+                    return true;
+                }
             }
+
         } catch (IOException ex) {
             System.out.println("Trains DB not Found!!");
         }
+        return false;
+    }
+
+    public static Date parseDate(String dateStr) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);  // Prevents invalid dates like Feb 30
+        return dateFormat.parse(dateStr);
     }
 }
