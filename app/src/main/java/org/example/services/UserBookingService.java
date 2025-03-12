@@ -21,7 +21,7 @@ public class UserBookingService {
     private User user; // Storing user at global level
     private List<User> userList; // List of users from localdb
 
-    private static final String USER_PATH = "/home/ekansh-mahajan/Desktop/PROJECTS/IRCTC/app/src/main/java/org/example/localDb/users.json";
+    private static final String USER_PATH = "app/src/main/java/org/example/localDb/users.json";
 
     private ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT); // Jackson's ObjectMapper to map values to classes
 
@@ -89,11 +89,22 @@ public class UserBookingService {
 
 
     // Book Seat
-    public void seatBooking(String tNo, String source, String destination, Date dot) throws IOException {
+    public void seatBooking(String tNo, String source, String destination, Date dot, Scanner scanner) throws IOException {
         TrainService ts = new TrainService();
         AtomicReference<Train> choosenTrain = ts.getTrain(tNo);
+        System.out.println("\nChoose your seat:\n");
+        for(List<Integer> col : choosenTrain.get().getSeats()) {
+            System.out.println(col);
+        }
+        System.out.println("\n!! Seats having 1 are booked !!\n");
 
-        AtomicBoolean isAvailable = ts.seatAvailable(choosenTrain);
+        System.out.println("\nEnter the Row:");
+        int row = scanner.nextInt();
+        System.out.println("\nEnter the Column:");
+        int col = scanner.nextInt();
+
+        AtomicBoolean isAvailable = ts.seatAvailable(choosenTrain, row-1, col-1);
+
         if(isAvailable.get()){
             Ticket t = new Ticket(this.user.getUserId(), source, destination, dot, choosenTrain.get());
 //            System.out.println("Before ticket");
@@ -128,7 +139,7 @@ public class UserBookingService {
             user.printTickets();
 
         }else{
-            System.out.println("No Seats Available !!");
+            System.out.println("The Seat is NOT Available !!");
         }
 
     }

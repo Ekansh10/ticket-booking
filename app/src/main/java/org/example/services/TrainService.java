@@ -26,6 +26,13 @@ public class TrainService {
 
     //METHODS
 
+    // Saving TrainList
+    private void saveTrainList() throws IOException {
+        File trainsfile = new File(TRAIN_DB_PATH);
+        objectMapper.writeValue(trainsfile, trainList);
+    }
+
+
     // Loading Trains
     public List<Train> loadTrains() throws IOException {
         File trains = new File(TRAIN_DB_PATH);
@@ -54,7 +61,7 @@ public class TrainService {
         return foundTrain;
     }
 
-    public AtomicBoolean seatAvailable(AtomicReference<Train> t){
+    public AtomicBoolean seatAvailable(AtomicReference<Train> t, int row, int col) throws IOException {
 
         AtomicBoolean present = new AtomicBoolean(false);
 
@@ -64,14 +71,11 @@ public class TrainService {
         else{
             Train train = t.get();
             List<List<Integer>> seats = train.getSeats();
-            for (List<Integer> seat : seats) {
-                for (int j = 0; j < seat.size(); j++) {
-                    if (seat.get(j) == 0) {
-                        seat.set(j, 1);
-                        present.set(true);
-                        return present;
-                    }
-                }
+            if(seats.get(row).get(col) == 0){
+                seats.get(row).set(col, 1);
+                t.get().setSeats(seats);
+                saveTrainList();
+                present.set(true);
             }
         }
         return present;

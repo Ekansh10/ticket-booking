@@ -1,14 +1,14 @@
 [ {
-  "name" : "ekansh",
-  "password" : "ekansh",
-  "hashed_password" : "$2a$10$Y.5fjHGsC/2v3n/efXR5Ku8VbqbXNA.ge8wPQXWfiNj2CqX8zTeje",
+  "name" : "jyoti",
+  "password" : "jyoti",
+  "hashed_password" : "$2a$10$rAFGuJdKsxmHJw4lLR9cgO3mycrI6RUprEscrioHdZBPHdBIo1uwm",
   "tickets_booked" : [ {
     "source" : "mumbai",
-    "destination" : "badnera",
+    "destination" : "nagpur",
     "train" : {
       "seats" : [ [ 1, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ] ],
       "stations" : [ "mumbai", "bhusaval", "badnera", "nagpur" ],
-      "trainInfo" : "Train Name: Mumbai Nagpur Express, Train ID: mbbn, Train No: 54321 \n\nStation Timings: \nMUMBAI: 13:50:00\nBHUSAVAL: 14:45:00\nBADNERA: 16:53:00\nNAGPUR: 19:08:00",
+      "trainInfo" : "Train Name: Mumbai Nagpur Express\nTrain ID: mbbn\nTrain No: 54321 \n\nStation Timings: \nMUMBAI: 13:50:00\nBHUSAVAL: 14:45:00\nBADNERA: 16:53:00\nNAGPUR: 19:08:00\n\nSeats Available: \n[1, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n",
       "train_id" : "mbbn",
       "train_name" : "Mumbai Nagpur Express",
       "train_no" : "54321",
@@ -19,30 +19,24 @@
         "nagpur" : "19:08:00"
       }
     },
-    "ticketInfo" : "Ticket ID: PNR-1000 belongs to User ffb92918-4bd3-4eee-a0b6-e74f23668747 from mumbai to badnera on Tue Mar 25 00:00:00 IST 2025",
+    "ticketInfo" : "Ticket ID: PNR-1000 belongs to User 65bf73ba-e657-480d-b6ff-8024f857ba8a from mumbai to nagpur on Sat Apr 05 00:00:00 IST 2025",
     "ticket_id" : "PNR-1000",
-    "user_id" : "ffb92918-4bd3-4eee-a0b6-e74f23668747",
-    "date_of_booking" : 1741714940342,
-    "date_of_travel" : 1742841000000
+    "user_id" : "65bf73ba-e657-480d-b6ff-8024f857ba8a",
+    "date_of_booking" : 1741752910897,
+    "date_of_travel" : 1743791400000
   } ],
-  "user_id" : "ffb92918-4bd3-4eee-a0b6-e74f23668747"
+  "user_id" : "65bf73ba-e657-480d-b6ff-8024f857ba8a"
 }, {
-  "name" : "jyoti",
-  "password" : "jyoti",
-  "hashed_password" : "$2a$10$6nQ2hTgsHUd5KuIo.DyG7et/N3aT.KiWjFX6NkoQugFuQbKG/GAeS",
-  "tickets_booked" : [ ],
-  "user_id" : "c514819b-a756-4070-8131-44a92555ab38"
-}, {
-  "name" : "jay",
-  "password" : "jay",
-  "hashed_password" : "$2a$10$YJJZXnewPZd0CfvwYRcoVeZRmjF9wXrgSrgLIMx3aDxSqhSVjg7ee",
+  "name" : "ekansh",
+  "password" : "ekansh",
+  "hashed_password" : "$2a$10$AtWKAn/6lUAr9Hcreq.xtut0BrpAJSVRTNit0vYpjGYL02VATgnqG",
   "tickets_booked" : [ {
     "source" : "bangalore",
-    "destination" : "jaipur",
+    "destination" : "delhi",
     "train" : {
       "seats" : [ [ 1, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ] ],
       "stations" : [ "bangalore", "jaipur", "delhi" ],
-      "trainInfo" : "Train Name: Bangalore Delhi Express, Train ID: bjd, Train No: 12345 \n\nStation Timings: \nBANGALORE: 09:55:00\nJAIPUR: 11:05:00\nDELHI: 13:36:00",
+      "trainInfo" : "Train Name: Bangalore Delhi Express\nTrain ID: bjd\nTrain No: 12345 \n\nStation Timings: \nBANGALORE: 09:55:00\nJAIPUR: 11:05:00\nDELHI: 13:36:00\n\nSeats Available: \n[1, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n",
       "train_id" : "bjd",
       "train_name" : "Bangalore Delhi Express",
       "train_no" : "12345",
@@ -52,67 +46,11 @@
         "delhi" : "13:36:00"
       }
     },
-    "ticketInfo" : "Ticket ID: PNR-1000 belongs to User d6cf305b-0ea8-4772-9594-edf5d82b283a from bangalore to jaipur on Tue Mar 25 00:00:00 IST 2025",
-    "ticket_id" : "PNR-1000",
-    "user_id" : "d6cf305b-0ea8-4772-9594-edf5d82b283a",
-    "date_of_booking" : 1741715135259,
-    "date_of_travel" : 1742841000000
+    "ticketInfo" : "Ticket ID: PNR-1002 belongs to User e15b01e9-2ed9-4b51-849c-a706deefd4da from bangalore to delhi on Wed Jul 09 00:00:00 IST 2025",
+    "ticket_id" : "PNR-1002",
+    "user_id" : "e15b01e9-2ed9-4b51-849c-a706deefd4da",
+    "date_of_booking" : 1741756287563,
+    "date_of_travel" : 1751999400000
   } ],
-  "user_id" : "d6cf305b-0ea8-4772-9594-edf5d82b283a"
-}, {
-  "name" : "ram",
-  "password" : "ram",
-  "hashed_password" : "$2a$10$LBLRYG0eIp4MJfrC7aiVceBLg6fAFV/P3j5yv.ZJQKfO8D2UaL8k.",
-  "tickets_booked" : [ {
-    "source" : "bhusaval",
-    "destination" : "nagpur",
-    "train" : {
-      "seats" : [ [ 1, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ] ],
-      "stations" : [ "mumbai", "bhusaval", "badnera", "nagpur" ],
-      "trainInfo" : "Train Name: Mumbai Nagpur Express, Train ID: mbbn, Train No: 54321 \n\nStation Timings: \nMUMBAI: 13:50:00\nBHUSAVAL: 14:45:00\nBADNERA: 16:53:00\nNAGPUR: 19:08:00",
-      "train_id" : "mbbn",
-      "train_name" : "Mumbai Nagpur Express",
-      "train_no" : "54321",
-      "station_times" : {
-        "mumbai" : "13:50:00",
-        "bhusaval" : "14:45:00",
-        "badnera" : "16:53:00",
-        "nagpur" : "19:08:00"
-      }
-    },
-    "ticketInfo" : "Ticket ID: PNR-1000 belongs to User 52bd1cb8-1589-48b8-a68c-7b1cb3f80be7 from bhusaval to nagpur on Fri May 09 00:00:00 IST 2025",
-    "ticket_id" : "PNR-1000",
-    "user_id" : "52bd1cb8-1589-48b8-a68c-7b1cb3f80be7",
-    "date_of_booking" : 1741715298589,
-    "date_of_travel" : 1746729000000
-  } ],
-  "user_id" : "52bd1cb8-1589-48b8-a68c-7b1cb3f80be7"
-}, {
-  "name" : "shyam",
-  "password" : "shyam",
-  "hashed_password" : "$2a$10$oY6VSzdMvQORt9xnvYxWo.W7LrZ3svQV1D68UGN/yBrQUnu4LTOYS",
-  "tickets_booked" : [ {
-    "source" : "bhusaval",
-    "destination" : "nagpur",
-    "train" : {
-      "seats" : [ [ 1, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ] ],
-      "stations" : [ "mumbai", "bhusaval", "badnera", "nagpur" ],
-      "trainInfo" : "Train Name: Mumbai Nagpur Express, Train ID: mbbn, Train No: 54321 \n\nStation Timings: \nMUMBAI: 13:50:00\nBHUSAVAL: 14:45:00\nBADNERA: 16:53:00\nNAGPUR: 19:08:00",
-      "train_id" : "mbbn",
-      "train_name" : "Mumbai Nagpur Express",
-      "train_no" : "54321",
-      "station_times" : {
-        "mumbai" : "13:50:00",
-        "bhusaval" : "14:45:00",
-        "badnera" : "16:53:00",
-        "nagpur" : "19:08:00"
-      }
-    },
-    "ticketInfo" : "Ticket ID: PNR-1000 belongs to User 26cb0c20-3a0a-4a2c-90e7-c897e518cae6 from bhusaval to nagpur on Fri May 09 00:00:00 IST 2025",
-    "ticket_id" : "PNR-1000",
-    "user_id" : "26cb0c20-3a0a-4a2c-90e7-c897e518cae6",
-    "date_of_booking" : 1741715384029,
-    "date_of_travel" : 1746729000000
-  } ],
-  "user_id" : "26cb0c20-3a0a-4a2c-90e7-c897e518cae6"
+  "user_id" : "e15b01e9-2ed9-4b51-849c-a706deefd4da"
 } ]

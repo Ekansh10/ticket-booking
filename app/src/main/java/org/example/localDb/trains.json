@@ -1,46 +1,26 @@
-[
-  {
-    "train_name": "Bangalore Delhi Express",
-    "train_id": "bjd",
-    "train_no": 12345,
-    "seats": [
-      [0,0,0,0,0,0],
-      [0,0,0,0,0,0],
-      [0,0,0,0,0,0],
-      [0,0,0,0,0,0]
-    ],
-    "station_times": {
-      "bangalore": "09:55:00",
-      "jaipur": "11:05:00",
-      "delhi": "13:36:00"
-    },
-    "stations": [
-      "bangalore",
-      "jaipur",
-      "delhi"
-    ]
-  },
-  {
-    "train_name": "Mumbai Nagpur Express",
-    "train_id": "mbbn",
-    "train_no": 54321,
-    "seats": [
-      [0,0,0,0,0,0],
-      [0,0,0,0,0,0],
-      [0,0,0,0,0,0],
-      [0,0,0,0,0,0]
-    ],
-    "station_times": {
-      "mumbai": "13:50:00",
-      "bhusaval": "14:45:00",
-      "badnera": "16:53:00",
-      "nagpur": "19:08:00"
-    },
-    "stations": [
-      "mumbai",
-      "bhusaval",
-      "badnera",
-      "nagpur"
-    ]
+[ {
+  "seats" : [ [ 1, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ] ],
+  "stations" : [ "bangalore", "jaipur", "delhi" ],
+  "trainInfo" : "Train Name: Bangalore Delhi Express\nTrain ID: bjd\nTrain No: 12345 \n\nStation Timings: \nBANGALORE: 09:55:00\nJAIPUR: 11:05:00\nDELHI: 13:36:00\n\nSeats Available: \n[1, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n",
+  "train_id" : "bjd",
+  "train_name" : "Bangalore Delhi Express",
+  "train_no" : "12345",
+  "station_times" : {
+    "bangalore" : "09:55:00",
+    "jaipur" : "11:05:00",
+    "delhi" : "13:36:00"
   }
-]
+}, {
+  "seats" : [ [ 1, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ] ],
+  "stations" : [ "mumbai", "bhusaval", "badnera", "nagpur" ],
+  "trainInfo" : "Train Name: Mumbai Nagpur Express\nTrain ID: mbbn\nTrain No: 54321 \n\nStation Timings: \nMUMBAI: 13:50:00\nBHUSAVAL: 14:45:00\nBADNERA: 16:53:00\nNAGPUR: 19:08:00\n\nSeats Available: \n[1, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n",
+  "train_id" : "mbbn",
+  "train_name" : "Mumbai Nagpur Express",
+  "train_no" : "54321",
+  "station_times" : {
+    "mumbai" : "13:50:00",
+    "bhusaval" : "14:45:00",
+    "badnera" : "16:53:00",
+    "nagpur" : "19:08:00"
+  }
+} ]

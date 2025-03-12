@@ -56,23 +56,28 @@ public class App {
             scanner.nextLine();
             switch (option){
                 case 1: // SIGN UP
-                    System.out.println("Enter the username: ");
-                    String nameToSignup = scanner.nextLine();
-                    System.out.println("Enter your password: ");
-                    String passToSignUp = scanner.nextLine();
-
-                    User u = new User();
-                    u.setName(nameToSignup);
-                    u.setPassword(passToSignUp);
-                    u.setHashedPassword(UserServiceUtil.hashPassword(passToSignUp));
-                    u.setUserId(UserServiceUtil.getUid());
-                    u.setBookedTickets(new ArrayList<>());
-
-                    success = userBookingService.signUp(u);
-                    if(success){
-                        System.out.println("Signed up Successfully!!");
+                    if(userBookingService.getUser() != null){
+                        System.out.println("Already Logged in!!\nLogOut First!!");
                     }else{
-                        System.out.println("Something Went Wrong!!!");
+
+                        System.out.println("Enter the username: ");
+                        String nameToSignup = scanner.nextLine();
+                        System.out.println("Enter your password: ");
+                        String passToSignUp = scanner.nextLine();
+
+                        User u = new User();
+                        u.setName(nameToSignup);
+                        u.setPassword(passToSignUp);
+                        u.setHashedPassword(UserServiceUtil.hashPassword(passToSignUp));
+                        u.setUserId(UserServiceUtil.getUid());
+                        u.setBookedTickets(new ArrayList<>());
+
+                        success = userBookingService.signUp(u);
+                        if(success){
+                            System.out.println("Signed up Successfully!!");
+                        }else{
+                            System.out.println("Something Went Wrong!!!");
+                        }
                     }
                     break;
 
@@ -153,7 +158,7 @@ public class App {
                         }
 
                         if(bookingTrainNo != null){
-                            userBookingService.seatBooking(bookingTrainNo, sourceToSearch, destinationToSearch, dateOfTravel);
+                            userBookingService.seatBooking(bookingTrainNo, sourceToSearch, destinationToSearch, dateOfTravel, scanner);
                         }else{
                             System.out.println("Invalid Train Number!!");
                         }
@@ -165,6 +170,7 @@ public class App {
 
                 // need to fix the user context checking, maybe write a method in userserviceutil
                 case 7: // CANCEL BOOKING
+                    // Need to update the cancellation of booking in train.json as well
                     if(userBookingService.getUser() != null){
                         System.out.println("Enter your Ticket Id: ");
                         String tidToCancel = scanner.nextLine();
@@ -196,7 +202,9 @@ public class App {
                 System.out.println("No Trains for following route !!");
             }else{
                 for(Train t : searchedTrains){
+                    System.out.println("-------------------------------------------------");
                     System.out.println(t.getTrainInfo());
+                    System.out.println("-------------------------------------------------");
                     return true;
                 }
             }

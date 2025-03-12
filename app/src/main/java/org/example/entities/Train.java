@@ -35,7 +35,8 @@ public class Train {
     // Methods
     public String getTrainInfo(){
         String trainTimings = this.getStationTimes().keySet().stream().map(key -> key.toUpperCase() + ": " + this.getStationTimes().get(key)).collect(Collectors.joining("\n"));
-        return String.format("Train Name: %s, Train ID: %s, Train No: %s \n\nStation Timings: \n%s" , trainName, trainId, trainNo, trainTimings);
+        String seatsAvailable = this.getSeats().stream().map(row -> row+"\n").collect(Collectors.joining(""));
+        return String.format("Train Name: %s\nTrain ID: %s\nTrain No: %s \n\nStation Timings: \n%s\n\nSeats Available: \n%s" , trainName, trainId, trainNo, trainTimings, seatsAvailable);
     }
 
     // Getters
