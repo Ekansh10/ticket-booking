@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class UserBookingService {
-
+    private final TrainService ts = new TrainService();
     private User user; // Storing user at global level
     private List<User> userList; // List of users from localdb
 
@@ -90,7 +90,7 @@ public class UserBookingService {
 
     // Book Seat
     public void seatBooking(String tNo, String source, String destination, Date dot, Scanner scanner) throws IOException {
-        TrainService ts = new TrainService();
+
         AtomicReference<Train> choosenTrain = ts.getTrain(tNo);
         System.out.println("\nChoose your seat:\n");
         for(List<Integer> col : choosenTrain.get().getSeats()) {
@@ -102,11 +102,12 @@ public class UserBookingService {
         int row = scanner.nextInt();
         System.out.println("\nEnter the Column:");
         int col = scanner.nextInt();
-
-        AtomicBoolean isAvailable = ts.seatAvailable(choosenTrain, row-1, col-1);
+        row = row -1;
+        col = col -1;
+        AtomicBoolean isAvailable = ts.seatAvailable(choosenTrain, row, col);
 
         if(isAvailable.get()){
-            Ticket t = new Ticket(this.user.getUserId(), source, destination, dot, choosenTrain.get());
+            Ticket t = new Ticket(this.user.getUserId(), source, destination, dot, choosenTrain.get(), row, col);
 //            System.out.println("Before ticket");
 //            System.out.println(t.getTicketInfo());
 //            System.out.println("After ticket");
@@ -148,14 +149,23 @@ public class UserBookingService {
 
 
     // Cancel Booking
-    public boolean cancelBooking(String ticketId){
+    public boolean cancelBooking(String ticketId) throws IOException {
         if(ticketId.isEmpty()){
             System.out.println("Invalid Ticket ID !!");
             return Boolean.FALSE;
         }
+        Optional<Ticket> t = user.getBookedTickets().stream().filter(ticket -> ticket.getTicketId().equals(ticketId)).findFirst();
 
-        boolean removed = user.getBookedTickets().removeIf(ticket -> ticket.getTicketId().equals(ticketId));
-        if(removed){
+        if(t.isPresent()){
+            AtomicReference<Train> train = ts.getTrain(t.get().getTrain().getTrainNo());
+            List<List<Integer>> cancelledSeats = train.get().getSeats();
+            cancelledSeats.get(t.get().getRow()).set(t.get().getCol(), 0);
+            train.get().setSeats(cancelledSeats);
+            ts.update();
+
+            user.getBookedTickets().remove(t.get());
+            saveUserListToFile();
+
             System.out.println("Ticket with ticket ID: " + ticketId +" has been canceled successfully !!");
             return Boolean.TRUE;
         }else{

@@ -80,4 +80,8 @@ public class TrainService {
         }
         return present;
     }
+
+    public void update() throws IOException {
+        saveTrainList();
+    }
 }

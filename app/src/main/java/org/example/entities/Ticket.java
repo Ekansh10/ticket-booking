@@ -31,13 +31,17 @@ public class Ticket {
     @JsonProperty("date_of_travel")
     private Date dateOfTravel;
     private Train train;
+    @JsonProperty("seat_row")
+    private int row;
+    @JsonProperty("seat_col")
+    private int col;
 
 
     // Constructor
     public Ticket(){
     }
 
-    public Ticket(String userId, String source, String destination, Date dateOfTravel, Train train) throws IOException {
+    public Ticket(String userId, String source, String destination, Date dateOfTravel, Train train, int row, int col) throws IOException {
         this.ticketId = generateTid();
         this.userId = userId;
         this.source = source;
@@ -45,6 +49,8 @@ public class Ticket {
         this.dateOfBooking = new Date();
         this.dateOfTravel = dateOfTravel;
         this.train = train;
+        this.row = row;
+        this.col = col;
     }
 
 
@@ -63,14 +69,14 @@ public class Ticket {
     private static int readLastCounter() throws IOException {
         File file = new File(COUNTER_FILE);
         if (!file.exists()){
-            saveLastCounter(1001);
-            return 1001;
+            saveLastCounter(1010);
+            return 1010;
         }
         try(BufferedReader reader = new BufferedReader(new FileReader(file))){
             return Integer.parseInt(reader.readLine());
         }catch (IOException | NumberFormatException e){
             e.printStackTrace();
-            return 1001;
+            return 1010;
         }
     }
 
@@ -111,6 +117,8 @@ public class Ticket {
         return train;
     }
 
+    public int getRow(){return row;}
+    public int getCol(){return col;}
 
     // Setters
     public void setTicketId(String ticketId) {
@@ -140,4 +148,6 @@ public class Ticket {
     public void setTrain(Train train) {
         this.train = train;
     }
+    public void setRow(int row){this.row = row;}
+    public void setCol(int col){this.col = col;}
 }
