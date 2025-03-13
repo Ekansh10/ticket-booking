@@ -63,23 +63,27 @@ public class TrainService {
 
     public AtomicBoolean seatAvailable(AtomicReference<Train> t, int row, int col) throws IOException {
 
-        AtomicBoolean present = new AtomicBoolean(false);
+        if (t.get() == null) {
+            return new AtomicBoolean(false); // Safe return instead of null
+        }
 
-        if(t.get() == null){
-            return null;
+        Train train = t.get();
+        List<List<Integer>> seats = train.getSeats();
+
+        if (row < 0 || row >= seats.size() || col < 0 || col >= seats.get(row).size()) {
+            return new AtomicBoolean(false);
         }
-        else{
-            Train train = t.get();
-            List<List<Integer>> seats = train.getSeats();
-            if(seats.get(row).get(col) == 0){
-                seats.get(row).set(col, 1);
-                t.get().setSeats(seats);
-                saveTrainList();
-                present.set(true);
-            }
+
+        if (seats.get(row).get(col) == 0) {
+            seats.get(row).set(col, 1);
+            train.setSeats(seats);
+            saveTrainList();
+            return new AtomicBoolean(true);
         }
-        return present;
+
+        return new AtomicBoolean(false);
     }
+
 
     public void update() throws IOException {
         saveTrainList();

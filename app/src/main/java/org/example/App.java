@@ -27,7 +27,7 @@ public class App {
 
     public static void main(String[] args) throws IOException {
         System.out.println("Running Train Booking System!!");
-        int option = 0;
+        String option = "0";
         UserBookingService userBookingService;
         try{
             userBookingService = new UserBookingService();
@@ -40,7 +40,7 @@ public class App {
 
 
         // APP LOOP
-        while(option != 8){
+        while(!option.equals("8")){
             success = false;
             System.out.println("\n\nAvailable Options:");
             System.out.println("1. Sign up");
@@ -52,10 +52,10 @@ public class App {
             System.out.println("7. Cancel my Booking");
             System.out.println("8. Exit App");
             System.out.println("Choose your option:");
-            option = scanner.nextInt();
-            scanner.nextLine();
+            option = scanner.nextLine();
+            option = option.strip();
             switch (option){
-                case 1: // SIGN UP
+                case "1": // SIGN UP
                     if(userBookingService.getUser() != null){
                         System.out.println("Already Logged in!!\nLogOut First!!");
                     }else{
@@ -81,7 +81,7 @@ public class App {
                     }
                     break;
 
-                case 2: // LOGIN
+                case "2": // LOGIN
                     if(userBookingService.getUser() == null){
                         System.out.println("Enter your username: ");
                         String nameToLogin = scanner.nextLine();
@@ -111,7 +111,7 @@ public class App {
 
                     break;
 
-                case 3: // LOGOUT
+                case "3": // LOGOUT
                     if(userBookingService.getUser() == null){
                         System.out.println("Already Logged Out!!");
                     }else{
@@ -123,7 +123,7 @@ public class App {
                     }
                     break;
 
-                case 4: // FETCH BOOKINGS
+                case "4": // FETCH BOOKINGS
                     if(userBookingService.getUser() != null) {
                         System.out.println("Fetching Your Bookings...");
                         userBookingService.fetchTickets();
@@ -133,43 +133,55 @@ public class App {
                     break;
 
 
-                case 5: // SEARCH TRAINS
-                    boolean x = findTrains();
+                case "5": // SEARCH TRAINS
+                    List<Train> x = findTrains();
                     break;
 
 
-                case 6: // BOOK SEAT
+                case "6": // BOOK SEAT
                     if(userBookingService.getUser() != null){
-                        boolean found = findTrains();
-                        if(!found){
+                        List<Train> found = findTrains();
+                        if(found.isEmpty()){
                             break;
                         }
-                        System.out.println("Enter the train No: ");
-                        String bookingTrainNo = scanner.nextLine();
-                        System.out.println("Enter Date of Travel (yyyy-MM-dd): ");
-                        String inputDate = scanner.nextLine();
+                        boolean validTrainNo = false;
+                        String bookingTrainNo = "";
+                        while (!validTrainNo){
+                            System.out.println("Enter the train No: ");
+                            bookingTrainNo = scanner.nextLine();
+                            for(Train t : found){
+                                if (t.getTrainNo().equals(bookingTrainNo)) {
+                                    validTrainNo = true;
+                                    break;
+                                }
+                            }
+                            if(!validTrainNo){
+                                System.out.println("Invalid Train Number !!");
+                            }
+                        }
+
 
                         Date dateOfTravel = null;
-                        try {
-                            dateOfTravel = parseDate(inputDate);
-                            System.out.println("Parsed Date: " + dateOfTravel);
-                        } catch (ParseException e) {
-                            System.out.println("Invalid date format! Please enter in yyyy-MM-dd format.");
+                        while(dateOfTravel == null){
+                            try {
+                                System.out.println("Enter Date of Travel (yyyy-MM-dd): ");
+                                String inputDate = scanner.nextLine();
+                                dateOfTravel = parseDate(inputDate);
+                                System.out.println("Parsed Date: " + dateOfTravel);
+                            } catch (ParseException e) {
+                                System.out.println("Invalid date format! Please enter in yyyy-MM-dd format.");
+                            }
                         }
 
-                        if(bookingTrainNo != null){
-                            userBookingService.seatBooking(bookingTrainNo, sourceToSearch, destinationToSearch, dateOfTravel, scanner);
-                        }else{
-                            System.out.println("Invalid Train Number!!");
-                        }
-
+                        userBookingService.seatBooking(bookingTrainNo, sourceToSearch, destinationToSearch, dateOfTravel, scanner);
+                        scanner.nextLine(); // clearing scanner
                     }else{
                         System.out.println("Invalid Session!!\nPlease Login !!");
                     }
                     break;
 
                 // need to fix the user context checking, maybe write a method in userserviceutil
-                case 7: // CANCEL BOOKING
+                case "7": // CANCEL BOOKING
                     // Need to update the cancellation of booking in train.json as well
                     if(userBookingService.getUser() != null){
                         System.out.println("Enter your Ticket Id: ");
@@ -180,23 +192,24 @@ public class App {
                     }
 
                     break;
-
+                default:
+                    System.out.println("Invalid Option");
             }
 
         }
     }
 
     // METHODS
-    private static boolean findTrains() {
+    private static List<Train> findTrains() {
         System.out.println("Enter Source Station: ");
         sourceToSearch = scanner.nextLine();
         System.out.println("Enter Destination Station: ");
         destinationToSearch = scanner.nextLine();
         System.out.println("Searching Trains....");
-
+        List<Train> searchedTrains = List.of();
         try{
             TrainService trainService = new TrainService();
-            List<Train> searchedTrains = trainService.searchTrains(sourceToSearch, destinationToSearch);
+            searchedTrains = trainService.searchTrains(sourceToSearch, destinationToSearch);
 
             if(searchedTrains.isEmpty()){
                 System.out.println("No Trains for following route !!");
@@ -205,14 +218,13 @@ public class App {
                     System.out.println("-------------------------------------------------");
                     System.out.println(t.getTrainInfo());
                     System.out.println("-------------------------------------------------");
-                    return true;
                 }
             }
 
         } catch (IOException ex) {
             System.out.println("Trains DB not Found!!");
         }
-        return false;
+        return searchedTrains;
     }
 
     public static Date parseDate(String dateStr) throws ParseException {

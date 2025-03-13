@@ -93,8 +93,8 @@ public class UserBookingService {
 
         AtomicReference<Train> choosenTrain = ts.getTrain(tNo);
         System.out.println("\nChoose your seat:\n");
-        for(List<Integer> col : choosenTrain.get().getSeats()) {
-            System.out.println(col);
+        for(List<Integer> row : choosenTrain.get().getSeats()) {
+            System.out.println(row);
         }
         System.out.println("\n!! Seats having 1 are booked !!\n");
 

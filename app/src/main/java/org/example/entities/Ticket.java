@@ -56,7 +56,7 @@ public class Ticket {
 
     // Methods
     public String getTicketInfo(){
-        return String.format("Ticket ID: %s belongs to User %s from %s to %s on %s", ticketId, userId, source, destination, dateOfTravel);
+        return String.format("Ticket ID: %s belongs to User %s \nFrom %s to %s on %s\nTrain No: %s\nSeat: Row %s Column %s\n", ticketId, userId, source.toUpperCase(), destination.toUpperCase(), dateOfTravel, train.getTrainNo(), row+1, col+1);
     }
 
     // Generate Random and Distinct Tid

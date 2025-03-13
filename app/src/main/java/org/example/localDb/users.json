@@ -19,7 +19,7 @@
         "nagpur" : "19:08:00"
       }
     },
-    "ticketInfo" : "Ticket ID: PNR-1000 belongs to User 65bf73ba-e657-480d-b6ff-8024f857ba8a from mumbai to nagpur on Sat Apr 05 00:00:00 IST 2025",
+    "ticketInfo" : "Ticket ID: PNR-1000 belongs to User 65bf73ba-e657-480d-b6ff-8024f857ba8a \nFrom MUMBAI to NAGPUR on Sat Apr 05 00:00:00 IST 2025\nTrain No: 54321\nSeat: Row 1 Column 1\n",
     "ticket_id" : "PNR-1000",
     "user_id" : "65bf73ba-e657-480d-b6ff-8024f857ba8a",
     "date_of_booking" : 1741752910897,
@@ -48,37 +48,13 @@
         "delhi" : "13:36:00"
       }
     },
-    "ticketInfo" : "Ticket ID: PNR-1001 belongs to User e15b01e9-2ed9-4b51-849c-a706deefd4da from bangalore to delhi on Sat Apr 05 00:00:00 IST 2025",
+    "ticketInfo" : "Ticket ID: PNR-1001 belongs to User e15b01e9-2ed9-4b51-849c-a706deefd4da \nFrom BANGALORE to DELHI on Sat Apr 05 00:00:00 IST 2025\nTrain No: 12345\nSeat: Row 1 Column 1\n",
     "ticket_id" : "PNR-1001",
     "user_id" : "e15b01e9-2ed9-4b51-849c-a706deefd4da",
     "date_of_booking" : 1741785766208,
     "date_of_travel" : 1743791400000,
     "seat_row" : 0,
     "seat_col" : 0
-  }, {
-    "source" : "mumbai",
-    "destination" : "nagpur",
-    "train" : {
-      "seats" : [ [ 1, 1, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ] ],
-      "stations" : [ "mumbai", "bhusaval", "badnera", "nagpur" ],
-      "trainInfo" : "Train Name: Mumbai Nagpur Express\nTrain ID: mbbn\nTrain No: 54321 \n\nStation Timings: \nMUMBAI: 13:50:00\nBHUSAVAL: 14:45:00\nBADNERA: 16:53:00\nNAGPUR: 19:08:00\n\nSeats Available: \n[1, 1, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n[0, 0, 0, 0, 0, 0]\n",
-      "train_id" : "mbbn",
-      "train_name" : "Mumbai Nagpur Express",
-      "train_no" : "54321",
-      "station_times" : {
-        "mumbai" : "13:50:00",
-        "bhusaval" : "14:45:00",
-        "badnera" : "16:53:00",
-        "nagpur" : "19:08:00"
-      }
-    },
-    "ticketInfo" : "Ticket ID: PNR-1010 belongs to User e15b01e9-2ed9-4b51-849c-a706deefd4da from mumbai to nagpur on Sat Apr 05 00:00:00 IST 2025",
-    "ticket_id" : "PNR-1010",
-    "user_id" : "e15b01e9-2ed9-4b51-849c-a706deefd4da",
-    "date_of_booking" : 1741786757304,
-    "date_of_travel" : 1743791400000,
-    "seat_row" : 0,
-    "seat_col" : 1
   } ],
   "user_id" : "e15b01e9-2ed9-4b51-849c-a706deefd4da"
 } ]
